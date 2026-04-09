@@ -3,10 +3,10 @@ pandas==2.1.4
 numpy==1.26.4
 scikit-learn==1.4.0
 xgboost==2.0.3
-lightgbm==4.3.0
+lightgbm==4.6.0
 
 # MLflow experiment tracking
-mlflow==2.10.2
+mlflow==3.11.1
 
 # FastAPI serving
 fastapi==0.109.2
@@ -26,7 +26,7 @@ httpx==0.27.0
 
 # Code quality
 flake8==7.0.0
-black==24.2.0
+black==26.3.1
 
 # Utilities
 python-dotenv==1.0.1

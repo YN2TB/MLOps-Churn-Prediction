@@ -64,7 +64,9 @@ models = {
 # Model Parameter Grids
 param_grids = {
     'logistic_regression': {
-        'penalty': ['l1', 'l2']
+        'C': [0.1, 1.0, 10.0],
+        'solver': ['lbfgs', 'liblinear'],
+        'max_iter': [200, 500]
     },
     'decision_tree': {
         'criterion': ['gini', 'entropy'],

@@ -53,6 +53,10 @@ class ModelTrainer:
                 best_params = pickle.load(f)
                 for key, value in best_params.items():
                     best_params[key] = [value]
+                    
+                if model_name == "logistic_regression":
+                    best_params.pop("penalty", None)
+                    best_params.pop("l1_ratio", None)
         else:
             logging.warning(f"No best parameters found for {model_name}, using default parameter grid.")
             best_params = param_grid

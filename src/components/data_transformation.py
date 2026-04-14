@@ -10,7 +10,7 @@ class DataTransformation:
     def transform(self, data):
         # Replace "Yes" and "No" with 1 and 0 in the target variable only if it exists
         if self.data_transformation_config.target_variable in data.columns:
-            data[self.data_transformation_config.target_variable] = data[self.data_transformation_config.target_variable].replace({'Yes': 1, 'No': 0})
+            data[self.data_transformation_config.target_variable] = data[self.data_transformation_config.target_variable].map({'Yes': 1, 'No': 0})
 
          # Check if the expected columns are present in the data
         missing_columns = [col for col in self.categorical_columns if col not in data.columns]

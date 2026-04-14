@@ -1,23 +1,18 @@
-FROM python:3.9-slim
+# Use the official Python image as the base image
+FROM python:3.14.3-slim
 
+# Set the working directory
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python dependencies
+# Copy the requirements.txt file into the container
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy source code
-COPY src/ src/
-COPY app.py .
-COPY models/ models/
+# Install the required packages
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-# Expose the API port
-EXPOSE 8000
+# Copy the entire project into the container
+COPY . .
 
-# Run the FastAPI application
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Set the entry point for the container
+CMD ["python", "ChurnPredictionAPI/run.py"]
+

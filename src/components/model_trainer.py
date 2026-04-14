@@ -95,37 +95,43 @@ class ModelTrainer:
         return best_model, best_params, best_score, test_accuracy
 
     def initiate_model_training(self, X_train, y_train, X_test, y_test):
-        # Remove target leakage if Churn is still in features
-        if isinstance(X_train, pd.DataFrame):
-            for col in ["Churn", "churn"]:
-                if col in X_train.columns:
-                    X_train = X_train.drop(columns=[col])
-                if isinstance(X_test, pd.DataFrame) and col in X_test.columns:
-                    X_test = X_test.drop(columns=[col])
+        try:
+            # Remove target leakage if Churn is still in features
+            if isinstance(X_train, pd.DataFrame):
+                for col in ["Churn", "churn"]:
+                    if col in X_train.columns:
+                        X_train = X_train.drop(columns=[col])
+                    if isinstance(X_test, pd.DataFrame) and col in X_test.columns:
+                        X_test = X_test.drop(columns=[col])
 
-        preprocessor = Preprocessor()
-        X_train = preprocessor.fit_transform(X_train)
-        X_test = preprocessor.transform(X_test)
+            preprocessor = Preprocessor()
+            X_train = preprocessor.fit_transform(X_train)
+            X_test = preprocessor.transform(X_test)
 
-        model_results = {}
-        for model_name, model in models.items():
-            param_grid = param_grids.get(model_name, {})
-            best_model, best_params, best_score, test_accuracy = self.train_model(
-                model, model_name, param_grid, X_train, y_train, X_test, y_test
+            model_results = {}
+            for model_name, model in models.items():
+                try:
+                    param_grid = param_grids.get(model_name, {})
+                    best_model, best_params, best_score, test_accuracy = self.train_model(
+                        model, model_name, param_grid, X_train, y_train, X_test, y_test
+                    )
+                    model_results[model_name] = {
+                        'best_model': best_model,
+                        'best_params': best_params,
+                        'best_score': best_score,
+                        'test_accuracy': test_accuracy
+                    }
+                except Exception as e:
+                    self.handle_training_exception(e, model_name)
+
+            save_object(
+                file_path=os.path.join(self.model_trainer_config.trained_model_file_path, "preprocessor.pkl"),
+                obj=preprocessor
             )
-            model_results[model_name] = {
-                'best_model': best_model,
-                'best_params': best_params,
-                'best_score': best_score,
-                'test_accuracy': test_accuracy
-            }
 
-        save_object(
-            file_path=os.path.join(self.model_trainer_config.trained_model_file_path, "preprocessor.pkl"),
-            obj=preprocessor
-        )
-
-        return model_results
+            return model_results
+        except Exception as e:
+            self.handle_training_exception(e, "initiate_model_training")
     
     def handle_training_exception(self, exception, model_name="Unknown"):
         """Handle and log training exceptions with custom error details."""

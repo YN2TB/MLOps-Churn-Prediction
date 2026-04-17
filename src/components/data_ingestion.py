@@ -40,4 +40,4 @@ class DataIngestion:
             return self.data_ingestion_config.train_file_path, self.data_ingestion_config.test_file_path
 
         except Exception as e:
-            raise CustomException(str(e), sys.exc_info()) #type: ignore
+            raise CustomException(e, sys)

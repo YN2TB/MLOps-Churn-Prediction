@@ -201,12 +201,13 @@ To change the model or hyperparameters, edit the values in `src/config.py` and r
 
 ## 📊 Results & Monitoring
 
-The current champion model achieves (example values; update after training):
+The current champion model (**XGBoost**) achieves:
 
 | Metric | Score |
 |---|---|
-| F1-Score | 0.XX |
-| Precision | 0.XX |
-| Recall | 0.XX |
-| ROC-AUC | 0.XX |
+| Accuracy | 0.7959 |
+| F1-Score | 0.7873 |
+| Precision | 0.7851 |
+| Recall | 0.7959 |
+| ROC-AUC | 0.8441 |
 | Inference Latency | < 50 ms |

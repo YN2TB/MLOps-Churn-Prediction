@@ -19,7 +19,7 @@ def save_object(file_path: str, obj: Any):
             pickle.dump(obj, file_obj)
 
     except Exception as e:
-        raise CustomException(str(e), sys.exc_info())
+        raise CustomException(e, sys)
 
 
 def load_object(file_path: str) -> Any:
@@ -31,4 +31,4 @@ def load_object(file_path: str) -> Any:
             return pickle.load(file_obj)
 
     except Exception as e:
-        raise CustomException(str(e), sys.exc_info())
+        raise CustomException(e, sys)

@@ -50,4 +50,4 @@ spec:
     - protocol: TCP
       port: 5000
       targetPort: 5000
-  type: ClusterIP  # Internal access only, strictly following the report documentation
+  type: ClusterIP  # Internal access only

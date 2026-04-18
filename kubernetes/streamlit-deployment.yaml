@@ -7,7 +7,7 @@ metadata:
 spec:
   replicas: 2  # Scaled for High Availability
   strategy:
-    type: RollingUpdate  # This maps perfectly to Section 4.2 in your report
+    type: RollingUpdate  #
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
@@ -45,4 +45,4 @@ spec:
     - protocol: TCP
       port: 8501
       targetPort: 8501
-  type: LoadBalancer  # Map to external IP for end-users, matching the report perfectly
+  type: LoadBalancer  # Map to external IP for end-users

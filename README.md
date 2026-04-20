@@ -119,7 +119,7 @@ python main.py
 Or run the training job and MLflow UI together:
 
 ```bash
-docker compose up --build
+docker compose up --build mlflow
 ```
 
 Then open:

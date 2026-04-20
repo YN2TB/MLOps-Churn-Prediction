@@ -14,7 +14,6 @@ The goal is to provide a simple, reproducible workflow that takes the prepared c
 |---|---|
 | **Language** | Python 3.14+ |
 | **Experiment Tracking** | [MLflow](https://mlflow.org/) |
-| **Data & Model Versioning** | [DVC](https://dvc.org/) |
 | **Containerization** | Docker, Docker Compose & Kubernetes |
 | **Modeling** | scikit-learn, XGBoost |
 | **CI/CD & Testing** | GitHub Actions, Pytest |

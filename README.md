@@ -12,7 +12,7 @@ The goal is to provide a simple, reproducible workflow that takes the prepared c
 
 | Layer | Tool |
 |---|---|
-| **Language** | Python 3.9+ |
+| **Language** | Python 3.14+ |
 | **Experiment Tracking & Model Versioning** | [MLflow](https://mlflow.org/) |
 | **Containerization** | Docker, Docker Compose & Kubernetes |
 | **Modeling** | scikit-learn, XGBoost |

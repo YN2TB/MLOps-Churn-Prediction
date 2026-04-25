@@ -12,8 +12,8 @@ The goal is to provide a simple, reproducible workflow that takes the prepared c
 
 | Layer | Tool |
 |---|---|
-| **Language** | Python 3.14+ |
-| **Experiment Tracking** | [MLflow](https://mlflow.org/) |
+| **Language** | Python 3.9+ |
+| **Experiment Tracking & Model Versioning** | [MLflow](https://mlflow.org/) |
 | **Containerization** | Docker, Docker Compose & Kubernetes |
 | **Modeling** | scikit-learn, XGBoost |
 | **CI/CD & Testing** | GitHub Actions, Pytest |
@@ -39,20 +39,14 @@ Raw Data --> Ingestion --> Preprocessing --> Training --> MLflow Tracking
 
 ## Key Features
 
-### 1. Data & Model Versioning
-Raw data (`data/raw/data.csv`), processed splits (`data/processed/`) and trained models (`models/`) are versioned with DVC.
 
-- Data/model files are stored outside regular Git history and tracked through `.dvc` metadata.
-- Reproducible training is defined in `dvc.yaml` and locked in `dvc.lock`.
-- MLflow still tracks experiment runs in `mlflow/mlflow.db`.
-
-### 2. Automated Experiment Tracking
+### 1. Automated Experiment Tracking
 Every training run is logged via MLflow. Compare different algorithms and hyperparameter configurations through the MLflow UI at `http://localhost:5000`.
 
-### 3. Containerized Execution & MLOps Orchestration
+### 2. Containerized Execution & MLOps Orchestration
 The training job and MLflow UI can be run locally with Docker Compose, or scaled dynamically using Kubernetes for Enterprise-grade High Availability and Rolling Updates. CI/CD is enforced via GitHub Actions and Pytest.
 
-### 4. Streamlit Prediction Interface
+### 3. Streamlit Prediction Interface
 Interactive web UI for making predictions using either local models or MLflow-tracked runs.
 
 ---
@@ -64,10 +58,6 @@ Interactive web UI for making predictions using either local models or MLflow-tr
 ├── data/
 │   ├── raw/                  # Raw churn CSV files
 │   └── processed/            # Train/test splits
-├── .dvc/                     # DVC internal metadata
-├── dvc.yaml                  # DVC pipeline definition
-├── dvc.lock                  # Locked pipeline versions
-├── params.yaml               # Pipeline parameters tracked by DVC
 ├── kubernetes/               # Enterprise K8s Manifests (Deployments, Services, PVC)
 ├── mlflow/                   # Local MLflow tracking store and artifacts
 ├── models/                   # Saved model & preprocessor artifacts
@@ -122,19 +112,6 @@ Run the training pipeline locally:
 
 ```bash
 python main.py
-```
-
-Run the same pipeline with DVC (recommended for reproducibility):
-
-```bash
-dvc repro
-```
-
-Track a new version of data/models after changes:
-
-```bash
-git add dvc.lock dvc.yaml params.yaml data/raw/data.csv.dvc data/.gitignore
-git commit -m "update data/model version"
 ```
 
 Or run the training job and MLflow UI together:
@@ -227,8 +204,6 @@ mlflow db upgrade sqlite:///./mlflow/mlflow.db
 ```
 
 To change the model or hyperparameters, edit the values in `src/config.py` and rerun `python main.py`.
-
-To change data split parameters used by DVC, edit `params.yaml` and rerun `dvc repro`.
 
 ---
 

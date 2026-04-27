@@ -278,20 +278,3 @@ Model performance from the latest recorded run:
 | Random Forest | 0.7983 | 0.7973 | 0.7888 | 0.7867 | 0.7973 | 0.8409 |
 | XGBoost | 0.8047 | 0.7959 | 0.7873 | 0.7851 | 0.7959 | 0.8441 |
 | SVM (RBF) | 0.8038 | 0.7959 | 0.7847 | 0.7837 | 0.7959 | N/A |
-
-Monitoring
-
-Post-deployment, the MLOps pipeline implements robust observability to ensure system
-health and detect model degradation. This is achieved by integrating Prometheus and
-Grafana.
-Prometheus operates as a time-series database, actively scraping both infrastructure
-metrics (e.g., CPU and memory utilization of Kubernetes Pods) and custom application
-4
-metrics (e.g., inference latency, prediction request volume, and output probability distri
-butions) exposed by the prediction service via a metrics endpoint.
-Grafana connects to Prometheus to visualize these metrics through real-time, interac
-tive dashboards. ByestablishingautomatedalertingrulesinPrometheus,theengineering
-team is immediately notified of operational anomalies or significant deviations in model
-prediction patterns. This observability stack enables proactive maintenance and allows
-the teamtotrigger Continuous Training (CT) loops when data drift or performance degra
-dation is suspected

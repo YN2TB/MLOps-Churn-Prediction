@@ -142,7 +142,11 @@ docker compose up --build
 Then open:
 
 - MLflow UI: `http://localhost:5000`
-- Streamlit app: `http://localhost:8501`
+- Streamlit app: `http://localhost:8502`
+
+
+### Monitoring by using Prometheus & Grafana:
+
 
 ### Inspecting MLflow
 

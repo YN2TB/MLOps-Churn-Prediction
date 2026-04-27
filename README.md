@@ -145,7 +145,44 @@ Then open:
 - Streamlit app: `http://localhost:8502`
 
 
-### Monitoring by using Prometheus & Grafana:
+### Monitoring by using Prometheus & Grafana
+
+To ensure the health, performance, and resource utilization of the MLOps pipeline, system and application metrics are tracked using Prometheus and visualized via Grafana.
+
+**1. Start the Monitoring Stack**
+
+Assuming Prometheus and Grafana are configured in your `compose.yaml` (along with a metrics exporter like Node Exporter), you can spin up the entire stack using:
+
+```bash
+docker compose up -d
+```
+
+**2. Access the Services**
+
+- **Prometheus (Metrics Scraper):** Open `http://localhost:9090`. You can go to **Status > Targets** to verify that your metric endpoints (e.g., Node Exporter, MLflow) are in the `UP` state.
+- **Grafana (Visualization UI):** Open `http://localhost:3000`.
+
+**3. Configuring Grafana (First-time Setup)**
+
+When you access Grafana for the first time, follow these steps to connect the data:
+
+1. Log in with the default credentials:
+   - **Username:** `admin`
+   - **Password:** `admin` (You will be prompted to change it).
+2. Navigate to **Connections > Data sources > Add data source**.
+3. Select **Prometheus**.
+4. Set the **Prometheus server URL**:
+   - If running via Docker Compose, use the internal network name: `http://prometheus:9090`
+   - If running locally/host network, use: `http://localhost:9090`
+5. Scroll down and click **Save & test**. You should see a green success message.
+
+**4. Importing Dashboards**
+
+Instead of building charts from scratch, you can import pre-built community dashboards:
+1. In Grafana, navigate to **Dashboards > Import**.
+2. Enter a Dashboard ID (e.g., type `1860` for the popular *Node Exporter Full* dashboard to monitor CPU, RAM, and Disk) and click Load.
+3. Select your connected Prometheus data source from the dropdown and click **Import**.
+```
 
 
 ### Inspecting MLflow

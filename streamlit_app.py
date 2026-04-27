@@ -3,6 +3,9 @@ import pickle
 from dataclasses import dataclass
 from typing import Any
 import os
+import time
+import socket
+from prometheus_client import start_http_server, Counter, Histogram
 
 import mlflow
 from mlflow import artifacts as mlflow_artifacts
@@ -17,6 +20,21 @@ from src.config import MLflowConfig
 MODELS_DIR = Path("models")
 PREPROCESSOR_PATH = MODELS_DIR / "preprocessor.pkl"
 
+@st.cache_resource
+def init_prometheus_metrics():
+    # Counter without _total suffix; client library exposes *_total automatically.
+    predictions_counter = Counter("churn_predictions", "Total number of churn predictions", ["result"])
+    prediction_latency = Histogram("churn_prediction_latency_seconds", "Latency of churn predictions")
+
+    # Create both label series upfront so Prometheus can discover them immediately.
+    predictions_counter.labels(result="Yes").inc(0)
+    predictions_counter.labels(result="No").inc(0)
+
+    start_http_server(8000, addr="0.0.0.0")
+    return predictions_counter, prediction_latency
+
+
+PREDICTIONS_COUNTER, PREDICTION_LATENCY = init_prometheus_metrics()
 
 @dataclass
 class MlflowRunOption:
@@ -331,11 +349,24 @@ def main():
 
     if predict_clicked:
         try:
+            start_t = time.time()
             features_df = preprocess_for_inference(input_df, model, preprocessor)
             prediction = model.predict(features_df)[0]
+            
+            latency = time.time() - start_t
+            try:
+                PREDICTION_LATENCY.observe(latency)
+            except NameError:
+                pass
 
             st.subheader("Prediction Result")
             predicted_label = "Yes" if int(prediction) == 1 else "No"
+            
+            try:
+                PREDICTIONS_COUNTER.labels(result=predicted_label).inc()
+            except NameError:
+                pass
+
             st.success(f"Predicted churn: {predicted_label}")
 
             if hasattr(model, "predict_proba"):

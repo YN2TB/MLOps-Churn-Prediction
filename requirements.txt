@@ -5,3 +5,5 @@ scikit-learn
 streamlit
 xgboost
 pytest
+dvc[gdrive]
+prometheus-client

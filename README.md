@@ -155,7 +155,7 @@ In the app, choose Model Source and then pick either a local model or an MLflow 
 Run the test suite locally:
 
 ```bash
-pytest tests/
+python.exe -m pytest tests/
 ```
 
 Tests are automatically executed on every push via GitHub Actions workflows.

@@ -105,6 +105,25 @@ Interactive web UI for making predictions using either local models or MLflow-tr
    ```bash
    pip install -r requirements.txt
    ```
+3. Pull Data & Models via DVC (Required)
+
+Because large data files and models are managed by DVC, you must pull them from Google Drive before running the pipeline.
+
+If you are the Repository Owner:
+   ```bash
+   dvc pull
+   ```
+If you are a Team Member / Collaborator:
+You need to configure local credentials to access the shared Google Drive remote. Ask the repository owner for the Client Secret, then run the following commands sequentially:
+   ```bash
+# Add the authentication keys locally (will not be tracked by Git)
+dvc remote modify --local myremote gdrive_client_id 359246786633-tbun4k52rpn8fcqgvq2rvgfl1ogv6k09.apps.googleusercontent.com
+dvc remote modify --local myremote gdrive_client_secret <PROVIDED_SECRET_HERE>
+
+# Pull the data
+dvc pull
+   ```
+(Note: A browser window will open to authenticate with Google Drive. Choose the authorized email, bypass the safety warning by clicking Advanced -> Go to DVC-App (unsafe) -> Allow).
 
 ### Running the Training Job
 
